@@ -1,7 +1,7 @@
 const client = require('../dbConfig.js');
 
   // Create a table with a list attribute
-function createTableWithListAttribute() {
+function createTableUser() {
   const createTableQuery = `
     CREATE TABLE IF NOT EXISTS "User" (
       UserID SERIAL PRIMARY KEY,
@@ -20,7 +20,7 @@ function createTableWithListAttribute() {
       Waiting_campaign integer[],
       Campaigns integer[],
       CHECK (email like '%@kaist.ac.kr'),
-      CHECK (array_length(Donated_item, 1) = 2)
+      CHECK (array_length(Donated_items, 1) = 2)
     );`;
     
     client.query(createTableQuery)
@@ -31,4 +31,4 @@ function createTableWithListAttribute() {
       .catch(err => console.error('Error creating table', err.stack));
 }
 
-createTableWithListAttribute();
+createTableUser();

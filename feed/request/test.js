@@ -1,3 +1,3 @@
 const {apply} = require('./apply.js');
 
-apply(5,3,1,'abcde');
+apply(1,1,1,'abcdf');
