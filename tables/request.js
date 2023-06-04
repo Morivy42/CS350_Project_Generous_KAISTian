@@ -14,9 +14,9 @@ function createTableRequest() {
     client.query(createTableQuery)
       .then(() => {
         console.log('Table created successfully');
-        client.end();
+        // client.end();
       })
       .catch(err => console.error('Error creating table', err.stack));
 }
 
-createTableRequest();
+module.exports = {createTableRequest: createTableRequest}

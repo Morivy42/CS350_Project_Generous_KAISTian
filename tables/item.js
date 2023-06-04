@@ -21,9 +21,9 @@ function createTableItem() {
   client.query(createTableQuery)
     .then(() => {
       console.log('Table created successfully');
-      client.end();
+      // client.end();
     })
-    .catch(err => console.error('Error creating table', err.stack));
+    .catch(err => console.error('Error creating table item', err.stack));
   }
 
-createTableItem()
+module.exports = { createTableItem: createTableItem }

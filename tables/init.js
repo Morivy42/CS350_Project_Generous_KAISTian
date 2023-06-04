@@ -1,3 +1,6 @@
+const { dropTables } = require('./drop.js');
+const { createTables } = require('./create.js');
+
 const client = require('../dbConfig.js');
 
 function truncate() {
@@ -40,5 +43,8 @@ function init_item() {
     .catch(err => console.error('Error inserting into item'));
 }
 
+
+dropTables();
+createTables();
 truncate();
 init();

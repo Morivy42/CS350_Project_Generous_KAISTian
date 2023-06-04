@@ -26,9 +26,9 @@ function createTableUser() {
     client.query(createTableQuery)
       .then(() => {
         console.log('Table created successfully');
-        client.end();
+        // client.end();
       })
-      .catch(err => console.error('Error creating table', err.stack));
+      .catch(err => console.error('Error creating table user', err.stack));
 }
 
-createTableUser();
+module.exports = { createTableUser: createTableUser }

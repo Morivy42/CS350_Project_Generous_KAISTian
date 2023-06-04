@@ -10,9 +10,10 @@ function dropTables() {
     client.query(dropQuery)
         .then(() => {
             console.log('Tables dropped successfully');
-            client.end();
+            // client.end();
         })
     .catch(err => console.error('Error dropping tables', err.stack));
 }
 
-dropTables();
+module.exports = {dropTables: dropTables}
+// dropTables();
