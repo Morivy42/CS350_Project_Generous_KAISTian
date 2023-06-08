@@ -10,7 +10,7 @@ export default async function LogInCheck(req, res) {
             const exists = result.rows.length > 0;
             console.log(exists);
             if (exists) {
-                res.status(200).send();
+                res.status(200).json(result.rows[0]);
             } else {
                 res.status(401).json({error: 'Invalid user'});
             }

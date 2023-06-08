@@ -23,8 +23,8 @@ const Login: React.FC = () => {
           // Handle a successful response
           alert('login successed');
           console.log('response:', response);
-          sessionStorage.setItem('mail', mail);
           window.location.href = '/';
+          return response.json();
         } else {
           // Handle an error response
           alert('login failed');
@@ -34,6 +34,9 @@ const Login: React.FC = () => {
       .catch(error => {
         // Handle any network or fetch error
         console.error('Error:', error);
+      })
+      .then(data => {
+        sessionStorage.setItem('UserID', data.userid);
       });
   };
   // const onInValid = (errors: FieldErrors) => console.log(errors);
