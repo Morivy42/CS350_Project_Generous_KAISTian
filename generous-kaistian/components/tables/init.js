@@ -43,10 +43,18 @@ function init_item() {
     .catch(err => console.error('Error inserting into item'));
 }
 
+function init_req() {
+
+}
+
+function init_camp() {
+    
+}
+
 function init() {
     dropTables();
     createTables();
-    truncate();
+    // truncate();
     init_tables();
 }
 

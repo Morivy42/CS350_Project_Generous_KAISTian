@@ -24,7 +24,7 @@ const Login: React.FC = () => {
           alert('login successed');
           console.log('response:', response);
           sessionStorage.setItem('mail', mail);
-          window.location.href = '/index';
+          window.location.href = '/';
         } else {
           // Handle an error response
           alert('login failed');
