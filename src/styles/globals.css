@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  background: white;
+  color: black;
+}
+.title {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 40pt;
+  background-color: skyblue;
+  color: white;
+}
+.title-sub {
+  text-align: center;
+  color: white;
+  font-size: 30pt;
+}
+.navbar {
+  background: skyblue;
+}
+.navbar a {
+  margin-right: 10px;
+  text-decoration: none;
+}
+.button {
+  background-color: transparent;
+  color: white;
+  border: white 2px solid;
+  border-radius: 20px;
+  padding: 10px 20px;
+  vertical-align: middle;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.out {
+  text-align: center;
+}
+.item_button {
+  color: black;
+  border: gray 0.5px solid;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  font-size: 10rem;
+  max-width: 680px;
+  margin: 0 auto;
+  cursor: pointer;
+}
