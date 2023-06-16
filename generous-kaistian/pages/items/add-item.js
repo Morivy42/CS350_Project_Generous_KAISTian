@@ -10,11 +10,11 @@ const AddItemsPage = () => {
   const [itemQuantity, setItemQuantity] = useState('');
   const [description, setDescription] = useState('');
   const [itemImage, setItemImage] = useState(null);
-
+  
   const router = useRouter();
   const { userid } = router.query;
-
-  const handleAddItem = (e) => {
+  
+  const handleAddItem = async (e) => {
     e.preventDefault();
     const newItem = {
       itemName,
@@ -24,7 +24,24 @@ const AddItemsPage = () => {
       itemImage,
       userid,
     };
-    console.log(newItem);
+    try {
+      const response = await fetch('/api/addItemHandler', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItem)
+      });
+      if (response.ok) {
+        alert('Item added');
+        router.push(`./feed-items?userid=${userid}`);
+      } else {
+        alert('Item cannot be added.\ntry again');
+      }
+      // Process the response data
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleImageChange = (e) => {
