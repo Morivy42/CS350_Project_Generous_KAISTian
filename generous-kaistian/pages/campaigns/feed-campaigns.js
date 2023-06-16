@@ -1,6 +1,9 @@
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const FeedCampaignsPage = () => {
+  const [campaigns, setcampaigns] = useState([]);
+
   const skyBlue = '#00D6FF';
   const purple = '#9521E5';
   const router = useRouter();
@@ -28,25 +31,41 @@ const FeedCampaignsPage = () => {
   };
 
   // Dummy data for campaigns
-  const campaigns = [
-    {
-      campaignid: 1,
-      title: 'Campaign 1',
-      category: 'Category 1',
-      description: 'Description 1',
-      numOfParticipants: 10,
-      image: 'image1.jpg',
-    },
-    {
-      campaignid: 2,
-      title: 'Campaign 2',
-      category: 'Category 2',
-      description: 'Description 2',
-      numOfParticipants: 5,
-      image: 'image2.jpg',
-    },
-    // Add more campaigns...
-  ];
+  // const campaigns = [
+  //   {
+  //     campaignid: 1,
+  //     title: 'Campaign 1',
+  //     category: 'Category 1',
+  //     description: 'Description 1',
+  //     numOfParticipants: 10,
+  //     image: 'image1.jpg',
+  //   },
+  //   {
+  //     campaignid: 2,
+  //     title: 'Campaign 2',
+  //     category: 'Category 2',
+  //     description: 'Description 2',
+  //     numOfParticipants: 5,
+  //     image: 'image2.jpg',
+  //   },
+  //   // Add more campaigns...
+  // ];
+
+  const getcampaigns = async () => {
+    try {
+      const response = await fetch(`../api/getcampaigns`)
+      const data = await response.json()
+      console.log(data)
+      setcampaigns(data)
+      return data
+    } catch (error) {
+      console.error('Error retrieving items:', error)
+    }
+  }
+
+  useEffect(() => {
+    getcampaigns();
+  }, []);
 
   return (
     <div>
@@ -64,10 +83,10 @@ const FeedCampaignsPage = () => {
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img src={campaign.image} alt="Campaign" style={{ width: '10rem', height: '10rem', objectFit: 'cover', borderRadius: '5px', marginRight: '1rem' }} />
               <div>
-                <h2 style={{ marginBottom: '0.5rem' }}>{campaign.title}</h2>
+                <h2 style={{ marginBottom: '0.5rem' }}>{campaign.name}</h2>
                 <p style={{ color: '#888', marginBottom: '0.5rem' }}>{campaign.category}</p>
                 <p style={{ marginBottom: '0.5rem' }}>{campaign.description}</p>
-                <p style={{ color: '#888', marginBottom: '0.5rem' }}>{`${campaign.numOfParticipants} participants`}</p>
+                <p style={{ color: '#888', marginBottom: '0.5rem' }}>{`${campaign.numpart} participants`}</p>
               </div>
             </div>
           </div>
