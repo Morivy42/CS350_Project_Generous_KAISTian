@@ -17,17 +17,29 @@ const RequestCampaignPage = () => {
   const router = useRouter();
   const { userid, campaignid } = router.query;
 
-  const handleRequestSubmit = (e) => {
+  const handleRequestSubmit = async (e) => {
     e.preventDefault();
     // Redirect to requestCampaignHandler.js with requestAmount and requestDescription as query params
-    router.push({
-      pathname: '/api/requestCampaignHandler',
-      query: {
-        userid,
-        campaignid,
-        requestDescription,
-      },
-    });
+    try {
+      const response = await fetch('/api/requestCampaignHandler', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userid, campaignid, requestDescription,
+        })
+      });
+      if (response.ok) {
+        alert('request completed');
+        router.push(`./feed-campaigns?userid=${userid}`);
+      } else {
+        alert('request failed.\ntry again');
+      }
+      // Process the response data
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleLogout = () => {

@@ -7,7 +7,6 @@ function add(photo, name, quantity, category, description, donator) {
     return client.query(insert, params)
 }
 
-
 export default async function addHandler(req, res) {
     const {
         itemName,
@@ -17,12 +16,11 @@ export default async function addHandler(req, res) {
         itemImage,
         userid,
       } = req.body
-    
+
     // 폼 데이터 처리 로직
     // ...
     add(itemImage, itemName, itemQuantity, itemCategory, description, userid)
     .then( () => {
-        console.log('cp')
         res.status(200).send('OK')
     })
     .catch (err => {
