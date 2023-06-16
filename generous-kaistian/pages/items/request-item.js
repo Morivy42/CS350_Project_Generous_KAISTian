@@ -52,48 +52,27 @@ const RequestItemPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    // TODO: 로그아웃 기능 구현
+    router.push('/'); // 로그아웃 페이지로 이동
+  };
+
+  const handleUserProfile = () => {
+    // TODO: 사용자 프로필 페이지로 이동
+    router.push(`/user-profile?userid=${userid}`); // userid를 query 형식으로 전송
+  };
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Top Navigation Bar */}
-      <div
-        style={{
-          background: `radial-gradient(circle at top right, ${purple}, ${skyBlue})`,
-          padding: '1rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          height: '6vh',
-        }}
-      >
-        <button
-          type="button"
-          style={{
-            backgroundColor: 'transparent',
-            border: 'none',
-            color: 'white',
-            fontSize: '1rem',
-            cursor: 'pointer',
-          }}
-        >
-          Logout
-        </button>
-        <h1 style={{ color: 'white', fontSize: '2.5rem', textAlign: 'center' }}>Generous KAISTians</h1>
-        <button
-          type="button"
-          style={{
-            backgroundColor: 'transparent',
-            border: 'none',
-            color: 'white',
-            fontSize: '1rem',
-            cursor: 'pointer',
-          }}
-        >
-          User Profile
-        </button>
+      <div style={{ background: `radial-gradient(circle at top right, ${purple}, ${skyBlue})`, padding: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '5vh', marginBottom: '2rem' }}>
+        <button type="button" onClick={handleLogout} style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>Logout</button>
+        <h1 style={{ color: 'white', fontSize: '2.5rem', textAlign: 'center', margin: 0 }}>Generous KAISTians</h1>
+        <button type="button" onClick={handleUserProfile} style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>User Profile</button>
       </div>
 
       {/* Content */}
-      <div style={{ display: 'flex', flex: 1, marginTop: '2rem' }}>
+      <div style={{ display: 'flex', flex: 1, marginTop: '0rem', alignItems: 'flex-start' }}>
         <div
           style={{
             flex: '0 0 60%',
@@ -103,8 +82,8 @@ const RequestItemPage = () => {
             marginBottom: '1rem',
           }}
         >
-          <div style={{ background: 'white', boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '2rem', height: '100%' }}>
-            <h2 style={{ marginBottom: '1rem' }}>{post.title}</h2>
+          <div style={{ background: 'white', boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '2rem', height: '70vh' }}>
+            <h2 style={{ marginBottom: '1rem', marginTop: 0 }}>{post.title}</h2>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
               <img
                 src={post.image}
@@ -121,7 +100,7 @@ const RequestItemPage = () => {
         </div>
         <div
           style={{
-            flex: '0 0 40%',
+            flex: '0 0 35%',
             maxHeight: '90vh',
             overflowY: 'auto',
             paddingLeft: '1rem',
@@ -130,7 +109,7 @@ const RequestItemPage = () => {
             gap: '1.5rem',
           }}
         >
-          <h2 style={{ marginBottom: '1rem' }}>Request Item</h2>
+          <h2 style={{ marginBottom: '1rem', marginTop: '2rem' }}>Request Item</h2>
           <form onSubmit={handleRequestSubmit}>
             <input
               type="number"
@@ -144,7 +123,8 @@ const RequestItemPage = () => {
                 padding: '0.8rem',
                 borderRadius: '5px',
                 border: '1px solid #ccc',
-                width: '100%',
+                width: '90%',
+                marginBottom: '0.5rem'
               }}
             />
             <textarea
@@ -154,23 +134,25 @@ const RequestItemPage = () => {
               placeholder="Request Description"
               style={{
                 height: '10rem',
-                width: '100%',
+                width: '90%',
                 resize: 'vertical',
                 padding: '0.8rem',
                 borderRadius: '5px',
                 border: '1px solid #ccc',
+                width: '90%',
+                marginBottom: '0.5rem'
               }}
             />
             <button
               type="submit"
               style={{
-                padding: '0.8rem',
+                padding: '0.5rem', // 크기 조정
                 borderRadius: '5px',
                 backgroundColor: skyBlue,
                 color: 'white',
                 border: 'none',
                 cursor: 'pointer',
-                width: '100%',
+                width: '20%',
               }}
               disabled={requestAmount <= 0 || requestAmount > post.numOfItems}
             >

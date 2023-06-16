@@ -2,10 +2,11 @@ const client = require('../dbConfig.js');
 
 function dropTables() {
     const dropQuery = `
-    DROP TABLE IF EXISTS Request;
-    DROP TABLE IF EXISTS Campaign;
-    DROP TABLE IF EXISTS Item;
-    DROP TABLE IF EXISTS "User";
+    DROP TABLE IF EXISTS Request cascade;
+    DROP TABLE IF EXISTS CampReq cascade;
+    DROP TABLE IF EXISTS Campaign cascade;
+    DROP TABLE IF EXISTS Item cascade;
+    DROP TABLE IF EXISTS "User" cascade;
     `;
     
     client.query(dropQuery)

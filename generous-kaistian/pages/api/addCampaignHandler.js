@@ -2,7 +2,7 @@ const client = require('../../components/dbConfig');
 
 // check schema modification for image field !
 function add(uploader, name, category, description, image) {
-    const insert = `insert into campaign(uploader, name, image, category, description, waiting) values($1, $2, $3, $4, $5, true)`
+    const insert = `insert into campaign(uploader, name, image, category, description, waiting, numpart) values($1, $2, $3, $4, $5, true, 0)`
     const params = [uploader, name, image, category, description]
 
     return client.query(insert, params)

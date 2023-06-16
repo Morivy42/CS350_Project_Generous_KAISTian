@@ -6,6 +6,7 @@ function createTableCampaign() {
         CREATE TABLE IF NOT EXISTS Campaign (
             CampaignID SERIAL PRIMARY KEY,
             Name varchar(30),
+            NumPart INTEGER,
             Image BYTEA,
             Category varchar(20) NOT NULL,
             Description TEXT,
