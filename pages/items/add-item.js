@@ -1,41 +1,43 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-const AddCampaignsPage = () => {
+const AddItemsPage = () => {
   const skyBlue = '#00D6FF';
   const purple = '#9521E5';
 
-  const [campaignName, setCampaignName] = useState('');
-  const [campaignCategory, setCampaignCategory] = useState('');
+  const [itemName, setItemName] = useState('');
+  const [itemCategory, setItemCategory] = useState('');
+  const [itemQuantity, setItemQuantity] = useState('');
   const [description, setDescription] = useState('');
-  const [campaignImage, setCampaignImage] = useState(null);
+  const [itemImage, setItemImage] = useState(null);
 
   const router = useRouter();
   const { userid } = router.query;
 
-  const handleAddCampaign = async (e) => {
+  const handleAddItem = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append('userid', userid);
-    formData.append('campaignName', campaignName);
-    formData.append('campaignCategory', campaignCategory);
+    formData.append('itemName', itemName);
+    formData.append('itemCategory', itemCategory);
+    formData.append('itemQuantity', itemQuantity);
     formData.append('description', description);
-    formData.append('campaignImage', campaignImage);
+    formData.append('itemImage', itemImage);
 
     try {
-      const response = await fetch('/api/addCampaignHandler', {
+      const response = await fetch('/api/addItemHandler', {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
         // 정보가 성공적으로 전송된 경우에 대한 처리
-        console.log('Campaign added successfully!');
+        console.log('Item added successfully!');
         // 여기서 다음 페이지로 이동하거나 작업을 수행할 수 있습니다.
       } else {
         // 정보 전송에 실패한 경우에 대한 처리
-        console.log('Failed to add campaign.');
+        console.log('Failed to add item.');
       }
     } catch (error) {
       // 네트워크 오류 등 예외 처리
@@ -45,7 +47,7 @@ const AddCampaignsPage = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setCampaignImage(file);
+    setItemImage(file);
   };
 
   const handleLogout = () => {
@@ -66,20 +68,21 @@ const AddCampaignsPage = () => {
         <button type="button" onClick={handleUserProfile} style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>User Profile</button>
       </div>
 
-      <h2 style={{ textAlign: 'center' }}>Add Campaign</h2>
+      <h2 style={{ textAlign: 'center' }}>Add Item</h2>
 
-      <form onSubmit={handleAddCampaign} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'center' }}>
-        <input type="text" value={campaignName} onChange={(e) => setCampaignName(e.target.value)} placeholder="Campaign Name" style={{ padding: '1rem', borderRadius: '5px', border: '1px solid #ccc', width: '300px' }} required />
-        <input type="text" value={campaignCategory} onChange={(e) => setCampaignCategory(e.target.value)} placeholder="Campaign Category" style={{ padding: '1rem', borderRadius: '5px', border: '1px solid #ccc', width: '300px' }} required />
+      <form onSubmit={handleAddItem} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'center' }}>
+        <input type="text" value={itemName} onChange={(e) => setItemName(e.target.value)} placeholder="Item Name" style={{ padding: '1rem', borderRadius: '5px', border: '1px solid #ccc', width: '300px' }} required />
+        <input type="text" value={itemCategory} onChange={(e) => setItemCategory(e.target.value)} placeholder="Item Category" style={{ padding: '1rem', borderRadius: '5px', border: '1px solid #ccc', width: '300px' }} required />
+        <input type="number" value={itemQuantity} onChange={(e) => setItemQuantity(e.target.value)} placeholder="Item Quantity" style={{ padding: '1rem', borderRadius: '5px', border: '1px solid #ccc', width: '300px' }} required />
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" style={{ height: '10rem', width: '300px', resize: 'vertical', padding: '1rem', borderRadius: '5px', border: '1px solid #ccc' }} required />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <label htmlFor="campaignImage" style={{ marginBottom: '0.5rem' }}>Campaign Image</label>
-          <input type="file" accept="image/*" id="campaignImage" onChange={handleImageChange} style={{ width: '300px', border: '1px solid #ccc', borderRadius: '5px', padding: '1rem' }} required />
+          <label htmlFor="itemImage" style={{ marginBottom: '0.5rem' }}>Item Image</label>
+          <input type="file" accept="image/*" id="itemImage" onChange={handleImageChange} style={{ width: '300px', border: '1px solid #ccc', borderRadius: '5px', padding: '1rem' }} required />
         </div>
-        <button type="submit" style={{ padding: '1rem', borderRadius: '5px', backgroundColor: skyBlue, color: 'white', border: 'none', cursor: 'pointer', width: '300px' }}>Add Campaign</button>
+        <button type="submit" style={{ padding: '1rem', borderRadius: '5px', backgroundColor: skyBlue, color: 'white', border: 'none', cursor: 'pointer', width: '300px' }}>Add Item</button>
       </form>
     </div>
   );
 };
 
-export default AddCampaignsPage;
+export default AddItemsPage;

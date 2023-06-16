@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-const FeedCampaignsPage = () => {
+const FeedItemsPage = () => {
   const skyBlue = '#00D6FF';
   const purple = '#9521E5';
   const router = useRouter();
@@ -15,37 +15,37 @@ const FeedCampaignsPage = () => {
     router.push(`/user-profile?userid=${userid}`); // userid를 query 형식으로 전송
   };
 
-  const handleAddCampaign = () => {
-    router.push(`/campaigns/add-campaign?userid=${userid}`); // userid를 query 형식으로 전송
+  const handleAddPost = () => {
+    router.push(`/items/add-item?userid=${userid}`); // userid를 query 형식으로 전송
+  };
+  
+  const handleCampaigns = () => {
+    router.push(`/campaigns/feed-campaigns?userid=${userid}`); // userid를 query 형식으로 전송
   };
 
-  const handleCampaignClick = (campaignid) => {
-    router.push(`/campaigns/request-campaign?userid=${userid}&campaignid=${campaignid}`); // userid와 campaignid를 query 형식으로 전송
+  const handlePostClick = (itemid) => {
+    router.push(`/items/request-item?userid=${userid}&itemid=${itemid}`); // userid와 itemid를 query 형식으로 전송
   };
 
-  const handleItems = () => {
-    router.push(`/items/feed-items?userid=${userid}`); // userid를 query 형식으로 전송
-  };
-
-  // Dummy data for campaigns
-  const campaigns = [
+  // Dummy data for posts
+  const posts = [
     {
-      campaignid: 1,
-      title: 'Campaign 1',
-      category: 'Category 1',
+      itemid: 1,
+      title: 'Post 1',
+      tag: 'Tag 1',
       description: 'Description 1',
-      numOfParticipants: 10,
+      numOfApplicants: 5,
       image: 'image1.jpg',
     },
     {
-      campaignid: 2,
-      title: 'Campaign 2',
-      category: 'Category 2',
+      itemid: 2,
+      title: 'Post 2',
+      tag: 'Tag 2',
       description: 'Description 2',
-      numOfParticipants: 5,
+      numOfApplicants: 3,
       image: 'image2.jpg',
     },
-    // Add more campaigns...
+    // Add more posts...
   ];
 
   return (
@@ -57,17 +57,17 @@ const FeedCampaignsPage = () => {
         <button type="button" onClick={handleUserProfile} style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>User Profile</button>
       </div>
 
-      {/* 캠페인 출력 */}
+      {/* 포스트 출력 */}
       <div style={{ padding: '1rem', background: 'white' }}>
-        {campaigns.map((campaign, index) => (
-          <div key={index} style={{ boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '1rem', marginBottom: '1rem', background: 'white', cursor: 'pointer' }} onClick={() => handleCampaignClick(campaign.campaignid)}>
+        {posts.map((post, index) => (
+          <div key={index} style={{ boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '1rem', marginBottom: '1rem', background: 'white', cursor: 'pointer' }} onClick={() => handlePostClick(post.itemid)}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img src={campaign.image} alt="Campaign" style={{ width: '10rem', height: '10rem', objectFit: 'cover', borderRadius: '5px', marginRight: '1rem' }} />
+              <img src={post.image} alt="Post" style={{ width: '10rem', height: '10rem', objectFit: 'cover', borderRadius: '5px', marginRight: '1rem' }} />
               <div>
-                <h2 style={{ marginBottom: '0.5rem' }}>{campaign.title}</h2>
-                <p style={{ color: '#888', marginBottom: '0.5rem' }}>{campaign.category}</p>
-                <p style={{ marginBottom: '0.5rem' }}>{campaign.description}</p>
-                <p style={{ color: '#888', marginBottom: '0.5rem' }}>{`${campaign.numOfParticipants} participants`}</p>
+                <h2 style={{ marginBottom: '0.5rem' }}>{post.title}</h2>
+                <p style={{ color: '#888', marginBottom: '0.5rem' }}>{post.tag}</p>
+                <p style={{ marginBottom: '0.5rem' }}>{post.description}</p>
+                <p style={{ color: '#888', marginBottom: '0.5rem' }}>{`${post.numOfApplicants} people applied`}</p>
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@ const FeedCampaignsPage = () => {
       {/* + 버튼 */}
       <button
         type="button"
-        onClick={handleAddCampaign}
+        onClick={handleAddPost}
         style={{
           position: 'fixed',
           bottom: '2rem',
@@ -98,10 +98,10 @@ const FeedCampaignsPage = () => {
         +
       </button>
 
-      {/* Items 버튼 */}
+{/* Campaigns 버튼 */}
       <button
         type="button"
-        onClick={handleItems}
+        onClick={handleCampaigns}
         style={{
           position: 'fixed',
           bottom: '2rem',
@@ -109,7 +109,7 @@ const FeedCampaignsPage = () => {
           background: skyBlue,
           color: 'white',
           border: 'none',
-          borderRadius: '1.5rem',
+          borderRadius: '1.5rem', // 수정된 부분: 모서리 둥글기 적용
           width: '7rem',
           height: '3rem',
           fontSize: '1rem',
@@ -119,10 +119,10 @@ const FeedCampaignsPage = () => {
           cursor: 'pointer',
         }}
       >
-        Items
+        Campaigns
       </button>
     </div>
   );
 };
 
-export default FeedCampaignsPage;
+export default FeedItemsPage;

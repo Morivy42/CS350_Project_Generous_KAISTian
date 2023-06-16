@@ -49,13 +49,25 @@ const AddItemsPage = () => {
     setItemImage(file);
   };
 
+  const handleLogout = () => {
+    // TODO: 로그아웃 기능 구현
+    router.push('/'); // 로그아웃 페이지로 이동
+  };
+
+  const handleUserProfile = () => {
+    // TODO: 사용자 프로필 페이지로 이동
+    router.push(`/user-profile?userid=${userid}`); // userid를 query 형식으로 전송
+  };
+
   return (
     <div>
       <div style={{ background: `radial-gradient(circle at top right, ${purple}, ${skyBlue})`, padding: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '5vh', marginBottom: '2rem' }}>
-        <button type="button" style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>Logout</button>
+        <button type="button" onClick={handleLogout} style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>Logout</button>
         <h1 style={{ color: 'white', fontSize: '2.5rem', textAlign: 'center', margin: 0 }}>Generous KAISTians</h1>
-        <button type="button" style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>User Profile</button>
+        <button type="button" onClick={handleUserProfile} style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>User Profile</button>
       </div>
+
+      <h2 style={{ textAlign: 'center' }}>Add Item</h2>
 
       <form onSubmit={handleAddItem} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'center' }}>
         <input type="text" value={itemName} onChange={(e) => setItemName(e.target.value)} placeholder="Item Name" style={{ padding: '1rem', borderRadius: '5px', border: '1px solid #ccc', width: '300px' }} required />
