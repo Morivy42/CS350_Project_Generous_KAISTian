@@ -21,7 +21,7 @@ function init_tables() {
 }
 function init_user() {
     const insertquery = `
-    insert into "User"(Name, Nickname, Email, Id) values (1,1,'1@kaist.ac.kr',1)
+    insert into "User"(Name, Nickname, Email, Id, password) values (1,1,'1@kaist.ac.kr',1, 1)
     `;
 
     client.query(insertquery)
