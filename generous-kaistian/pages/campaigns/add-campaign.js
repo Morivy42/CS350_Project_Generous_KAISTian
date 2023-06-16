@@ -16,26 +16,33 @@ const AddCampaignsPage = () => {
   const handleAddCampaign = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('userid', userid);
-    formData.append('campaignName', campaignName);
-    formData.append('campaignCategory', campaignCategory);
-    formData.append('description', description);
-    formData.append('campaignImage', campaignImage);
+    const newCampaign = {
+      userid,
+      campaignName,
+      campaignCategory,
+      description,
+      campaignImage,
+    }
 
     try {
       const response = await fetch('/api/addCampaignHandler', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCampaign)
       });
 
       if (response.ok) {
         // 정보가 성공적으로 전송된 경우에 대한 처리
         console.log('Campaign added successfully!');
+        alert('Campaign added successfully!')
         // 여기서 다음 페이지로 이동하거나 작업을 수행할 수 있습니다.
+        router.push(`./feed-campaigns?userid=${userid}`);
       } else {
         // 정보 전송에 실패한 경우에 대한 처리
         console.log('Failed to add campaign.');
+        alert('Failed to add campaign.')
       }
     } catch (error) {
       // 네트워크 오류 등 예외 처리
