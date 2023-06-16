@@ -18,18 +18,38 @@ const RequestItemPage = () => {
   const router = useRouter();
   const { userid, itemid } = router.query;
 
-  const handleRequestSubmit = (e) => {
+  const handleRequestSubmit = async (e) => {
     e.preventDefault();
     // Redirect to requestItemHandler.js with requestAmount and requestDescription as query params
-    router.push({
-      pathname: '/requestItemHandler',
-      query: {
-        userid,
-        itemid,
-        requestAmount,
-        requestDescription,
-      },
-    });
+    // router.push({
+    //   pathname: 'generous-kaistian\pages\api\requestItemHandler',
+    //   query: {
+    //     userid,
+    //     itemid,
+    //     requestAmount,
+    //     requestDescription,
+    //   },
+    // });
+    try {
+      const response = await fetch('/api/requestItemHandler', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userid, itemid, requestAmount, requestDescription
+        })
+      });
+      if (response.ok) {
+        alert('request completed');
+        router.push(`./feed-items?userid=${userid}`);
+      } else {
+        alert('request failed.\ntry again');
+      }
+      // Process the response data
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (

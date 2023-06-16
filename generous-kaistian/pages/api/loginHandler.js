@@ -10,8 +10,7 @@ import client from '../../components/dbConfig';
 
 export default async function LogInCheck(req, res) {
   const {email, password} = req.body;
-  console.log("email:" + email);
-
+  
   const query = `select * from "User" where email = $1 and password = $2`;
   client.query(query, [email, password])
       .then(result => {

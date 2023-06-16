@@ -17,7 +17,6 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Send email and password to loginHandler page
-    console.log('client:'+email)
     try {
       const response = await fetch('/api/loginHandler', {
         method: 'POST',
