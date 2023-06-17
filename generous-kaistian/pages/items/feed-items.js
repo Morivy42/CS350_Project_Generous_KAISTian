@@ -9,7 +9,7 @@ const FeedItemsPage = () => {
   const router = useRouter();
 
   const { userid } = router.query; // userid 값을 query 형식으로 받아옴
-
+  console.log('userid:'+userid)
   const handleLogout = () => {
     router.push('/');
   };
@@ -36,7 +36,7 @@ const FeedItemsPage = () => {
       const data = await response.json()
       console.log(data)
       setposts(data)
-      return data
+      // return data
     } catch (error) {
       console.error('Error retrieving items:', error)
     }
