@@ -30,21 +30,39 @@ const SignupPage = () => {
     setContact(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Create a new FormData object to send the data
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('profileImage', profileImage);
-    formData.append('contact', contact);
+    // const formData = new FormData();
+    // formData.append('username', username);
+    // formData.append('email', email);
+    // formData.append('password', password);
+    // formData.append('profileImage', profileImage);
+    // formData.append('contact', contact);
 
-    // Send user data to add-account page
-    router.push({
-      pathname: '/api/signupHandler',
-      query: Object.fromEntries(formData),
-    });
+    // // Send user data to add-account page
+    // router.push({
+    //   pathname: '/api/signupHandler',
+    //   query: Object.fromEntries(formData),
+    // });
+    try {
+      const response = await fetch('/api/signupHandler', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({username, email, password, profileImage, contact})
+      });
+      if (response.ok) {
+        alert('signed up successfully');
+        router.push(`../`);
+      } else {
+        alert('signup failed');
+      }
+      // Process the response data
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
