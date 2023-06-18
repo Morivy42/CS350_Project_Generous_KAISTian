@@ -28,7 +28,7 @@ function query2(RequestID, userid, itemid) {
   // console.log(RequestID);
 
   return client.query(updateTableUser,[RequestID,userid])
-      .then(()=>client.query(updateTableItem,[RequestID,itemid]));
+      .then(()=>client.query(updateTableItem,[userid,itemid]));
 }
 
 export default async function RequestHandler(req, res) {
