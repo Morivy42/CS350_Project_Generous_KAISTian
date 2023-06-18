@@ -5,18 +5,18 @@ const RequestItemPage = () => {
   const skyBlue = '#00D6FF';
   const purple = '#9521E5';
 
-  const post = {
-    title: 'Bread',
-    tag: 'Food',
-    numOfItems: 10,
-    description: 'It is yummy and delicious. It is for free!',
-    image: 'post-image.jpg',
-  };
-
   const [requestAmount, setRequestAmount] = useState('');
   const [requestDescription, setRequestDescription] = useState('');
   const router = useRouter();
-  const { userid, itemid } = router.query;
+  const { userid, itemid, itemtitle, itemtag, itemnum, itemdesc } = router.query;
+
+  const post = {
+    title: 'Bread',
+    tag: 'Food',
+    numOfItems: itemid,
+    description: 'It is yummy and delicious. It is for free!',
+    image: 'post-image.jpg',
+  };
 
   const handleRequestSubmit = async (e) => {
     e.preventDefault();
@@ -83,7 +83,7 @@ const RequestItemPage = () => {
           }}
         >
           <div style={{ background: 'white', boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '2rem', height: '70vh' }}>
-            <h2 style={{ marginBottom: '1rem', marginTop: 0 }}>{post.title}</h2>
+            <h2 style={{ marginBottom: '1rem', marginTop: 0 }}>{itemtitle}</h2>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
               <img
                 src={post.image}
@@ -92,9 +92,9 @@ const RequestItemPage = () => {
               />
             </div>
             <div>
-              <p>Category: {post.tag}</p>
-              <p>Number of Items: {post.numOfItems}</p>
-              <p>Description: {post.description}</p>
+              <p>Category: {itemtag}</p>
+              <p>Number of Items: {itemnum}</p>
+              <p>Description: {itemdesc}</p>
             </div>
           </div>
         </div>
@@ -117,7 +117,7 @@ const RequestItemPage = () => {
               value={requestAmount}
               onChange={(e) => setRequestAmount(e.target.value)}
               min={1}
-              max={post.numOfItems}
+              max={itemnum}
               placeholder="Request Amount"
               style={{
                 padding: '0.8rem',
@@ -154,7 +154,7 @@ const RequestItemPage = () => {
                 cursor: 'pointer',
                 width: '20%',
               }}
-              disabled={requestAmount <= 0 || requestAmount > post.numOfItems}
+              disabled={requestAmount <= 0 || requestAmount > itemnum}
             >
               Submit
             </button>

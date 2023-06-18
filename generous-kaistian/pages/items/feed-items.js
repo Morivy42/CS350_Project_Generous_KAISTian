@@ -27,8 +27,8 @@ const FeedItemsPage = () => {
     router.push(`/campaigns/feed-campaigns?userid=${userid}`); // userid를 query 형식으로 전송
   };
 
-  const handlePostClick = (itemid) => {
-    router.push(`/items/request-item?userid=${userid}&itemid=${itemid}`); // userid와 itemid를 query 형식으로 전송
+  const handlePostClick = (itemid, itemtitle, itemtag, itemnum, itemdesc) => {
+    router.push(`/items/request-item?userid=${userid}&itemid=${itemid}&itemtitle=${itemtitle}&itemtag=${itemtag}&itemnum=${itemnum}&itemdesc=${itemdesc}`); // userid와 itemid를 query 형식으로 전송
   };
 
   const searchTitle = async (title) => {
@@ -109,7 +109,7 @@ const FeedItemsPage = () => {
       {/* 포스트 출력 */}
       <div style={{ padding: '1rem', background: 'white' }}>
         {posts.map((post, index) => (
-          <div key={index} style={{ boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '1rem', marginBottom: '1rem', background: 'white', cursor: 'pointer' }} onClick={() => handlePostClick(post.itemid)}>
+          <div key={index} style={{ boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '1rem', marginBottom: '1rem', background: 'white', cursor: 'pointer' }} onClick={() => handlePostClick(post.itemid, post.name, post.category, post.quantity, post.description)}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img src={post.photo} alt="Post" style={{ width: '10rem', height: '10rem', objectFit: 'cover', borderRadius: '5px', marginRight: '1rem' }} />
               <div>
