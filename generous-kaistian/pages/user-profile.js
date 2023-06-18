@@ -63,33 +63,49 @@ const userProfilePage = () => {
 
   const getcampaigns = async () => {
     try {
-      const response = await fetch(`../api/user_profile/initiatedcampaigns?userid=${userid}`)
+      const response = await fetch(`../api/user_profile/initiatedcampaigns`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userid
+        })
+      })
       const data = await response.json()
       // console.log(data)
       setinitiatedCampagins(data)
       // return data
     } catch (error) {
-      console.error('Error retrieving items:', error)
+      console.error('Error retrieving campaigns:', error)
     }
   }
 
   const getcampreq = async () => {
     try {
-      const response = await fetch(`../api/user_profile/camp_req?userid=${userid}`)
+      const response = await fetch(`../api/user_profile/camp_req`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userid
+        })
+      })
       const data = await response.json()
       // console.log(data)
       setrequestedCampaigns(data)
       // return data
     } catch (error) {
-      console.error('Error retrieving items:', error)
+      console.error('Error retrieving campaigns:', error)
     }
   }
 
   useEffect(() => {
     getdonated();
     getrequested();
-    // getcampaigns();
-    // getcampreq();
+    getcampaigns();
+    getcampreq();
   }, []);
 
   const profileImage = 1
@@ -147,7 +163,7 @@ const userProfilePage = () => {
                 <div style={{ height: '50vh', overflowY: 'scroll' }}>
                 {donatedItems.map((item, index) => (
                     <div key={index} style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
-                    <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => router.push(`/items/edit-item?userid=${userid}&item=${item.itemid}`)}>
+                    <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => router.push(`/items/edit-item?userid=${userid}&itemid=${item.itemid}`)}>
                         {item.name}
                     </div>
                     <button type="button" style={{ cursor: 'pointer', width: '5rem', backgroundColor: item.numberofrequests === 0 ? '#CCCCCC' : '#00D6FF', color: '#FFFFFF', border: 'none', borderRadius: '0.3rem', padding: '0.5rem 1rem' }} onClick={() => console.log(`Edit ${item.name}`)}>
@@ -164,7 +180,7 @@ const userProfilePage = () => {
                 <div style={{ height: '50vh', overflowY: 'scroll' }}>
                 {requestedItems.map((item, index) => (
                     <div key={index} style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
-                    <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => router.push(`/items/edit-item?userid=${userid}&item=${item.itemid}`)}>
+                    <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => router.push(`/items/edit-item?userid=${userid}&itemid=${item.itemid}`)}>
                         {item.name}
                     </div>
                     <button type="button" style={{ cursor: 'pointer', width: '5rem', backgroundColor: item.status === -1 ? '#FF4F4F' : item.status === 0 ? '#FFCD3C' : '#4CAF50', color: 'white', border: 'none', borderRadius: '0.3rem', padding: '0.5rem 1rem' }} onClick={() => console.log(`Edit ${item.name}`)}>
@@ -188,11 +204,11 @@ const userProfilePage = () => {
                 <div style={{ height: '50vh', overflowY: 'scroll' }}>
                 {initiatedCampaigns.map((campaign, index) => (
                     <div key={index} style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
-                    <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => router.push(`/campaigns/edit-campaign?userid=${userid}&campaign=${campaign.campaign}`)}>
-                        {campaign.campaign}
+                    <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => router.push(`/campaigns/edit-campaign?userid=${userid}&campaignid=${campaign.campaignid}`)}>
+                        {campaign.name}
                     </div>
-                    <button type="button" style={{ cursor: 'pointer', width: '5rem', backgroundColor: campaign.numberOfRequests === 0 ? '#CCCCCC' : '#00D6FF', color: '#FFFFFF', border: 'none', borderRadius: '0.3rem', padding: '0.5rem 1rem' }} onClick={() => console.log(`Edit ${campaign.campaign}`)}>
-                        {campaign.numberOfRequests === 0 ? 'No Requests' : `${campaign.numberOfRequests} Requests`}
+                    <button type="button" style={{ cursor: 'pointer', width: '5rem', backgroundColor: campaign.numpart === 0 ? '#CCCCCC' : '#00D6FF', color: '#FFFFFF', border: 'none', borderRadius: '0.3rem', padding: '0.5rem 1rem' }} onClick={() => console.log(`Edit ${campaign.name}`)}>
+                        {campaign.numpart === 0 ? 'No Requests' : `${campaign.numpart} Requests`}
                     </button>
                     </div>
                 ))}
@@ -205,10 +221,10 @@ const userProfilePage = () => {
                 <div style={{ height: '50vh', overflowY: 'scroll' }}>
                 {requestedCampaigns.map((campaign, index) => (
                     <div key={index} style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
-                    <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => router.push(`/campaigns/edit-campaign?userid=${userid}&campaign=${campaign.campaign}`)}>
-                        {campaign.campaign}
+                    <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => router.push(`/campaigns/edit-campaign?userid=${userid}&campaignid=${campaign.campaignid}`)}>
+                        {campaign.name}
                     </div>
-                    <button type="button" style={{ cursor: 'pointer', width: '5rem', backgroundColor: campaign.status === -1 ? '#FF4F4F' : campaign.status === 0 ? '#FFCD3C' : '#4CAF50', color: 'white', border: 'none', borderRadius: '0.3rem', padding: '0.5rem 1rem' }} onClick={() => console.log(`Edit ${campaign.campaign}`)}>
+                    <button type="button" style={{ cursor: 'pointer', width: '5rem', backgroundColor: campaign.status === -1 ? '#FF4F4F' : campaign.status === 0 ? '#FFCD3C' : '#4CAF50', color: 'white', border: 'none', borderRadius: '0.3rem', padding: '0.5rem 1rem' }} onClick={() => console.log(`Edit ${campaign.name}`)}>
                         {campaign.status === -1 ? 'Rejected' : campaign.status === 0 ? 'Waiting' : 'Approved'}
                     </button>
                     </div>
