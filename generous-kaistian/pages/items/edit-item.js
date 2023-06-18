@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 const EditItemPage = () => {
@@ -53,6 +53,35 @@ const EditItemPage = () => {
       console.error('Error:', error);
     }
   };
+
+  const getdata = async () => {
+    try {
+      const response = await fetch('/api/getbyitemid', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({userid, itemid}),
+      });
+      if (response.ok) {
+        const data = await response.json()
+        setItemName(data.name)
+        setItemCategory(data.category)
+        setItemQuantity(data.quantity)
+        setDescription(data.description)
+        setItemImage(data.photo)
+      } else {
+        alert('Item cannot be edited.\ntry again');
+      }
+      // Process the response data
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  useEffect(() => {
+    getdata();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];

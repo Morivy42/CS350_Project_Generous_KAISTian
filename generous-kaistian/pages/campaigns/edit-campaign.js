@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 const EditCampaignPage = () => {
@@ -51,9 +51,37 @@ const EditCampaignPage = () => {
     }
   };
 
+  const getdata = async () => {
+    try {
+      const response = await fetch('/api/getbycampaignid', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({userid, campaignid}),
+      });
+      if (response.ok) {
+        const data = await response.json()
+        setCampaignName(data.name)
+        setCampaignCategory(data.category)
+        setDescription(data.description)
+        setCampaignImage(data.image)
+      } else {
+        alert('Item cannot be edited.\ntry again');
+      }
+      // Process the response data
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  useEffect(() => {
+    getdata();
+  }, []);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setItemImage(file);
+    setCampaignImage(file);
   };
 
   const handleLogout = () => {
