@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 const FeedItemsPage = () => {
   const [posts, setposts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchType, setSearchType] = useState('title');
 
   const skyBlue = '#00D6FF';
   const purple = '#9521E5';
@@ -31,14 +32,27 @@ const FeedItemsPage = () => {
     router.push(`/items/request-item?userid=${userid}&itemid=${itemid}&itemtitle=${itemtitle}&itemtag=${itemtag}&itemnum=${itemnum}&itemdesc=${itemdesc}`); // userid와 itemid를 query 형식으로 전송
   };
 
-  const searchTitle = async (title) => {
+  const handleSearchTypeChange = (e) => {
+    setSearchType(e.target.value);
+    setSearchTerm('');
+  };
+
+  const searchItems = async () => {
     try {
-      const response = await fetch(`/api/search?title=${encodeURIComponent(title)}`);
+      let url = '/api/search?';
+      if (searchType === 'title') {
+        url += `title=${encodeURIComponent(searchTerm)}`;
+      } else if (searchType === 'category') {
+        url += `category=${encodeURIComponent(searchTerm)}`;
+      } else {
+        return;
+      }
+      const response = await fetch(url);
       const data = await response.json();
       console.log('Search data retrieved:', data);
       setposts(data);
     } catch (error) {
-      console.error('Error searching for title:', error);
+      console.error('Error searching items:', error);
     }
   };
 
@@ -81,7 +95,7 @@ const FeedItemsPage = () => {
 
   useEffect(() => {
     if (searchTerm) {
-      searchTitle(searchTerm);
+      searchItems();
     } else {
       getPosts();
     }
@@ -96,14 +110,29 @@ const FeedItemsPage = () => {
         <button type="button" onClick={handleUserProfile} style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>User Profile</button>
       </div>
 
+      {/* 검색창 */}
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Item name"
-          style={{ width: '400px', boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '0.5rem', marginTop: '0.5rem', marginBottom: '0.5rem' }}
-        />
+        {searchType === 'title' ? (
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Item name"
+            style={{ width: '400px', boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '0.5rem', marginTop: '1rem', marginBottom: '0.5rem' }}
+          />
+        ) : (
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Item category"
+            style={{ width: '400px', boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '0.5rem', marginTop: '1rem', marginBottom: '0.5rem' }}
+          />
+        )}
+        <select value={searchType} onChange={handleSearchTypeChange} style={{ height: '35px', boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', marginLeft: '0.5rem', marginTop: '1rem' }}>
+          <option value="title">Title</option>
+          <option value="category">Category</option>
+        </select>
       </div>
 
       {/* 포스트 출력 */}

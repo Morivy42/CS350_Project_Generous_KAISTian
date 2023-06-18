@@ -1,12 +1,22 @@
 import client from '../../components/dbConfig';
 
-export default function SearchTitle(req, res) {
-  const { title } = req.query;
+export default function handler(req, res) {
+  const { title, category } = req.query;
 
-  const titleQuery = `SELECT * FROM "item" WHERE name LIKE $1`;
-  const params = [`%${title}%`];
+  let query = '';
+  let params = [];
 
-  client.query(titleQuery, params)
+  if (title) {
+    query = 'SELECT * FROM "item" WHERE name LIKE $1';
+    params = [`%${title}%`];
+  } else if (category) {
+    query = 'SELECT * FROM "item" WHERE category LIKE $1';
+    params = [`%${category}%`];
+  } else {
+    return res.status(400).json({ message: 'Invalid search parameters' });
+  }
+
+  client.query(query, params)
     .then(result => {
       const rows = result.rows;
       console.log('Search data retrieved:', rows);
