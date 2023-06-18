@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 const FeedItemsPage = () => {
   const [posts, setposts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const skyBlue = '#00D6FF';
   const purple = '#9521E5';
@@ -28,6 +29,17 @@ const FeedItemsPage = () => {
 
   const handlePostClick = (itemid) => {
     router.push(`/items/request-item?userid=${userid}&itemid=${itemid}`); // userid와 itemid를 query 형식으로 전송
+  };
+
+  const searchTitle = async (title) => {
+    try {
+      const response = await fetch(`/api/search?title=${encodeURIComponent(title)}`);
+      const data = await response.json();
+      console.log('Search data retrieved:', data);
+      setposts(data);
+    } catch (error) {
+      console.error('Error searching for title:', error);
+    }
   };
 
   const getPosts = async () => {
@@ -63,9 +75,17 @@ const FeedItemsPage = () => {
   //   // Add more posts...
   // ];
 
+  // useEffect(() => {
+  //   getPosts();
+  // }, [])
+
   useEffect(() => {
-    getPosts();
-  }, []);
+    if (searchTerm) {
+      searchTitle(searchTerm);
+    } else {
+      getPosts();
+    }
+  }, [searchTerm]);
 
   return (
     <div>
@@ -74,6 +94,16 @@ const FeedItemsPage = () => {
         <button type="button" onClick={handleLogout} style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>Logout</button>
         <h1 style={{ color: 'white', fontSize: '2.5rem', textAlign: 'center' }}>Generous KAISTians</h1>
         <button type="button" onClick={handleUserProfile} style={{ backgroundColor: 'transparent', border: 'none', color: 'white', fontSize: '1rem', cursor: 'pointer' }}>User Profile</button>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Item name"
+          style={{ width: '400px', boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '0.5rem', marginTop: '0.5rem', marginBottom: '0.5rem' }}
+        />
       </div>
 
       {/* 포스트 출력 */}
