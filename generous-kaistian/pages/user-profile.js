@@ -183,8 +183,8 @@ const userProfilePage = () => {
                     <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => router.push(`/items/edit-item?userid=${userid}&itemid=${item.itemid}`)}>
                         {item.name}
                     </div>
-                    <button type="button" style={{ cursor: 'pointer', width: '5rem', backgroundColor: item.status === -1 ? '#FF4F4F' : item.status === 0 ? '#FFCD3C' : '#4CAF50', color: 'white', border: 'none', borderRadius: '0.3rem', padding: '0.5rem 1rem' }} onClick={() => console.log(`Edit ${item.name}`)}>
-                        {item.status === -1 ? 'Rejected' : item.status === 0 ? 'Waiting' : 'Approved'}
+                    <button type="button" style={{ cursor: 'pointer', width: '5rem', backgroundColor: item.status === 1 ? '#FF4F4F' : item.status === 0 ? '#FFCD3C' : '#4CAF50', color: 'white', border: 'none', borderRadius: '0.3rem', padding: '0.5rem 1rem' }} onClick={() => console.log(`Edit ${item.name}`)}>
+                        {item.status === 1 ? 'Rejected' : item.status === 0 ? 'Waiting' : 'Approved'}
                     </button>
                     </div>
                 ))}

@@ -57,19 +57,20 @@ model request {
   itemid    Int?
   quantity  Int?
   appeal    String?
-  item      item?   @relation(fields: [itemid], references: [itemid], onDelete: NoAction, onUpdate: NoAction)
-  User      User?   @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+  status     Int?    @default(0)
+  item      item?   @relation(fields: [itemid], references: [itemid], onDelete: Cascade, onUpdate: NoAction, map: "fk_request_itemid")
+  User      User?   @relation(fields: [userid], references: [userid], onDelete: Cascade, onUpdate: NoAction, map: "fk_request_userid")
 }
 
 model campaign {
   campaignid  Int       @id @default(autoincrement())
   name        String?   @db.VarChar(30)
-  numpart     Int?
   image       Bytes?
   category    String    @db.VarChar(20)
   description String?
   uploader    Int?
   waiting     Boolean?
+  numpart     Int?
   User        User?     @relation(fields: [uploader], references: [userid], onDelete: NoAction, onUpdate: NoAction)
   campreq     campreq[]
 }
