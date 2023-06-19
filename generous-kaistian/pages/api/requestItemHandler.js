@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth/next";
 async function apply(userid, itemid, quantity, appeal) {
   query1(userid,itemid,quantity,appeal)
       .then(Request => {
-          query2(Request.rows[0].requestid, userid, itemid)})
+          query2(itemid, userid, itemid)})
       .then(()=>{
         console.log("Request made")
       })
@@ -23,8 +23,8 @@ function query1(userid, itemid, quantity, appeal) {
 }
 
 function query2(RequestID, userid, itemid) {
-  const updateTableUser = `update "User" set Requested_items = array_append(Requested_items, $1) where UserID = $2`;
-  const updateTableItem = `update item set Requested_users = array_append(Requested_users, $1) where ItemID = $2`;
+  const updateTableUser = `update User set requested_items = array_append(requested_items, $1) where userid = $2`;
+  const updateTableItem = `update item set request_users = array_append(request_users, $1) where itemid = $2`;
   // console.log(RequestID);
 
   return client.query(updateTableUser,[RequestID,userid])
