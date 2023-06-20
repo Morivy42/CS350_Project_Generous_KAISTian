@@ -11,8 +11,13 @@ const EditItemPage = () => {
   const [description, setDescription] = useState('');
   const [itemImage, setItemImage] = useState(null);
 
+  const [requests, setrequests] = useState([]);
+
   const router = useRouter();
   const { userid, itemid } = router.query;
+
+  // 성준 추가
+  const {choosed_user_id, setchoo_user_id} = useState(1);
 
   // Dummy data for pre-filled input fields
   const dummyData = {
@@ -21,6 +26,42 @@ const EditItemPage = () => {
     itemQuantity: '5',
     description: 'This is a sample description.',
     itemImage: null, // Provide a sample image if needed
+  };
+
+  //// 6/19 성준 추가
+  const handleRequestConfirm = async (ch_user_id) => {
+    //e.preventDefault();
+    // Redirect to requestItemHandler.js with requestAmount and requestDescription as query params
+    // router.push({
+    //   pathname: 'generous-kaistian\pages\api\requestItemHandler',
+    //   query: {
+    //     userid,
+    //     itemid,
+    //     requestAmount,
+    //     requestDescription,
+    //   },
+    // });
+
+    try {
+      const response = await fetch('/api/requestConfirmHandler', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ch_user_id, itemid
+        })
+      });
+      if (response.ok) {
+        alert('request completed');
+        router.push(`./feed-items?userid=${userid}`);
+      } else {
+        alert('request failed.\ntry again');
+      }
+      // Process the response data
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleEditItem = async (e) => {
@@ -79,8 +120,44 @@ const EditItemPage = () => {
     }
   }
 
+  /////////// 성준 11:49 추가
+  const getRequests = async () => {
+    try {
+      const response = await fetch(`../api/getrequests`)
+      const data = await response.json()
+      // console.log(data)
+      setrequests(data)
+      // return data
+    } catch (error) {
+      console.error('Error retrieving items:', error)
+    }
+  }
+  const searchRequests = async () => {
+    try {
+      let url = '/api/search_requests?';
+      url += `title=${encodeURIComponent(itemid)}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      setrequests(data);
+    } catch (error) {
+      console.error('Error searching items:', error);
+    }
+  };
+  const get_setchoo = async () => {
+    try {
+      // console.log(data)
+      setchoo_user_id(1)
+      // return data
+    } catch (error) {
+      console.error('Error retrieving items:', error)
+    }
+  };
+
+  /////////////
   useEffect(() => {
     getdata();
+    getRequests();
+    get_setchoo();
   }, []);
 
   const handleImageChange = (e) => {
@@ -119,6 +196,21 @@ const EditItemPage = () => {
         </div>
         <button type="submit" style={{ padding: '1rem', borderRadius: '5px', backgroundColor: skyBlue, color: 'white', border: 'none', cursor: 'pointer', width: '300px' }}>Edit Item</button>
       </form>
+
+      <h2 style={{ textAlign: 'center' }}>Requests</h2>
+
+      <div style={{ padding: '1rem', background: 'white' }}>
+        {requests.map((request, index) => (
+          <div key={index} style={{ boxShadow: '0 2px 7px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '1rem', marginBottom: '1rem', background: 'white', cursor: 'pointer' }} onClick={() => handleRequestConfirm(request.userid)}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div>
+                <h2 style={{ marginBottom: '0.5rem' }}>{request.quantity}</h2>
+                <p style={{ marginBottom: '0.5rem' }}>{request.appeal}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
